@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Clear a stale single-instance lock left behind by an unclean container stop
+if ! pgrep -f /opt/bob/ > /dev/null; then
+  rm -f "$HOME/.config/Bob LearnHNS/Singleton"*
+fi
+
+# Electron's sandbox needs privileges the container doesn't have.
+# Wallet secrets are protected by Bob's own wallet password, so a basic store is fine.
+exec /opt/bob/bob-wallet \
+  --no-sandbox \
+  --password-store=basic \
+  "$@" > /dev/null 2>&1

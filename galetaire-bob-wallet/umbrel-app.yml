@@ -1,0 +1,41 @@
+manifestVersion: 1
+id: galetaire-bob-wallet
+name: Bob LearnHNS
+tagline: Handshake wallet and full node, running on your Umbrel
+icon: https://raw.githubusercontent.com/shadstoneofficial/bob-wallet/master/resources/icons/512x512.png
+category: finance
+version: "2.3.12"
+port: 8337
+description: >-
+  Bob LearnHNS is a Handshake (HNS) wallet with a built-in full node. Use it to
+  manage HNS, bid on name auctions, and manage your Handshake domains and DNS records.
+
+
+  This app runs the official Bob LearnHNS Linux desktop build inside a
+  browser-accessible desktop (KasmVNC). Your node keeps syncing and your
+  wallet keeps running on your Umbrel when you close the browser tab.
+
+
+  ⚠️ The first sync of the Handshake blockchain can take several hours and
+  uses tens of GB of disk space.
+
+
+  ⚠️ Only x86_64 (amd64) devices are supported, such as Umbrel Home or a PC.
+  Bob does not publish ARM Linux builds, so it will not run on a Raspberry Pi.
+
+
+  ⚠️ Always back up your seed phrase. Uninstalling this app permanently deletes
+  its data, including your wallet files.
+developer: Shadstone / LearnHNS
+website: https://github.com/shadstoneofficial/bob-wallet
+submitter: galetaire
+submission: https://github.com/galetaire/bob-umbrel
+repo: https://github.com/shadstoneofficial/bob-wallet
+support: https://github.com/shadstoneofficial/bob-wallet/issues
+gallery: []
+releaseNotes: >-
+  Bob LearnHNS v2.3.12 packaged for umbrelOS.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

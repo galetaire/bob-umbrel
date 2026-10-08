@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      # The format here is: <app-id>_<docker-service-name>_1
+      APP_HOST: galetaire-bob-wallet_server_1
+      APP_PORT: 3000
+
+  server:
+    image: ghcr.io/galetaire/bob-learnhns:2.3.12
+    restart: on-failure
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - TITLE=Bob LearnHNS
+    volumes:
+      # Bob's settings, wallets and the Handshake chain live under /config/.config
+      - ${APP_DATA_DIR}/data/config:/config
+    shm_size: "1gb"

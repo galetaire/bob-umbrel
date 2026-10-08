@@ -1,0 +1,63 @@
+name: Build Bob LearnHNS image
+
+on:
+  workflow_dispatch:
+    inputs:
+      bob_version:
+        description: "Bob LearnHNS version (without the v), e.g. 2.3.12"
+        required: true
+        default: "2.3.12"
+  push:
+    branches: [main]
+    paths:
+      - "docker/**"
+      - ".github/workflows/build-image.yml"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version and checksum
+        id: ver
+        run: |
+          VERSION="${{ github.event.inputs.bob_version }}"
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -oP '^ARG BOB_VERSION=\K.*' docker/Dockerfile)
+          fi
+          SHA=$(curl -fsSL "https://github.com/shadstoneofficial/bob-wallet/releases/download/v${VERSION}/SHA256SUMS.txt" \
+            | grep "Bob.LearnHNS-${VERSION}.AppImage" | awk '{print $1}')
+          if [ -z "$SHA" ]; then
+            echo "Could not find an AppImage checksum for v${VERSION}" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/bob-learnhns" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: docker
+          platforms: linux/amd64
+          push: true
+          build-args: |
+            BOB_VERSION=${{ steps.ver.outputs.version }}
+            BOB_SHA256=${{ steps.ver.outputs.sha }}
+          tags: |
+            ${{ steps.ver.outputs.image }}:${{ steps.ver.outputs.version }}
+            ${{ steps.ver.outputs.image }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
