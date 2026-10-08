@@ -20,8 +20,9 @@ description: >-
   uses tens of GB of disk space.
 
 
-  ⚠️ Only x86_64 (amd64) devices are supported, such as Umbrel Home or a PC.
-  Bob does not publish ARM Linux builds, so it will not run on a Raspberry Pi.
+  Runs on x86_64 (Umbrel Home, PCs) and ARM64 (Raspberry Pi 4/5). On a
+  Raspberry Pi the interface is slower, and a Pi with at least 4 GB of RAM is
+  recommended.
 
 
   ⚠️ Always back up your seed phrase. Uninstalling this app permanently deletes

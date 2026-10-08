@@ -10,7 +10,7 @@ Bob is an Electron desktop app with no web UI. The image in `docker/` takes the 
 
 The KasmVNC base is used instead of linuxserver's newer Selkies base on purpose: Selkies only works over HTTPS, and Umbrel serves apps over plain HTTP on your LAN. Umbrel disabled its own Chromium app for the same reason.
 
-Only **amd64** is supported, because Bob publishes no ARM Linux build.
+Both **amd64** and **arm64** (Raspberry Pi) are supported. On amd64 the image uses the official AppImage. Bob publishes no ARM Linux build, so on arm64 the image compiles Bob from the same release tag, on GitHub's native ARM runners.
 
 ## Repository layout
 

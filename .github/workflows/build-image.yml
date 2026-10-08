@@ -18,8 +18,12 @@ permissions:
   packages: write
 
 jobs:
-  build:
+  resolve:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+      sha: ${{ steps.ver.outputs.sha }}
+      image: ${{ steps.ver.outputs.image }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +34,7 @@ jobs:
           if [ -z "$VERSION" ]; then
             VERSION=$(grep -oP '^ARG BOB_VERSION=\K.*' docker/Dockerfile)
           fi
+          # Checksum of the official amd64 AppImage (arm64 is built from source)
           SHA=$(curl -fsSL "https://github.com/shadstoneofficial/bob-wallet/releases/download/v${VERSION}/SHA256SUMS.txt" \
             | grep "Bob.LearnHNS-${VERSION}.AppImage" | awk '{print $1}')
           if [ -z "$SHA" ]; then
@@ -39,6 +44,21 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
           echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/bob-learnhns" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: resolve
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            # Native ARM runner: compiling Bob under QEMU emulation would take hours
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
 
       - uses: docker/setup-buildx-action@v3
 
@@ -51,13 +71,35 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: docker
-          platforms: linux/amd64
+          platforms: linux/${{ matrix.arch }}
           push: true
+          provenance: false
           build-args: |
-            BOB_VERSION=${{ steps.ver.outputs.version }}
-            BOB_SHA256=${{ steps.ver.outputs.sha }}
-          tags: |
-            ${{ steps.ver.outputs.image }}:${{ steps.ver.outputs.version }}
-            ${{ steps.ver.outputs.image }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+            BOB_VERSION=${{ needs.resolve.outputs.version }}
+            BOB_SHA256=${{ needs.resolve.outputs.sha }}
+          tags: ${{ needs.resolve.outputs.image }}:${{ needs.resolve.outputs.version }}-${{ matrix.arch }}
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}
+
+  merge:
+    needs: [resolve, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create multi-arch tags
+        run: |
+          IMAGE="${{ needs.resolve.outputs.image }}"
+          VERSION="${{ needs.resolve.outputs.version }}"
+          docker buildx imagetools create \
+            -t "$IMAGE:$VERSION" \
+            -t "$IMAGE:latest" \
+            "$IMAGE:$VERSION-amd64" \
+            "$IMAGE:$VERSION-arm64"
+          docker buildx imagetools inspect "$IMAGE:$VERSION"
