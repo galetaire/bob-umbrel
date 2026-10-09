@@ -2,15 +2,11 @@ name: Build Bob LearnHNS image
 
 on:
   workflow_dispatch:
-    inputs:
-      bob_version:
-        description: "Bob LearnHNS version (without the v), e.g. 2.3.12"
-        required: true
-        default: "2.3.12"
   push:
     branches: [main]
     paths:
       - "docker/**"
+      - "galetaire-bob-wallet/umbrel-app.yml"
       - ".github/workflows/build-image.yml"
 
 permissions:
@@ -22,27 +18,20 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.ver.outputs.version }}
-      sha: ${{ steps.ver.outputs.sha }}
+      tag: ${{ steps.ver.outputs.tag }}
       image: ${{ steps.ver.outputs.image }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Resolve version and checksum
+      - name: Resolve versions
         id: ver
         run: |
-          VERSION="${{ github.event.inputs.bob_version }}"
-          if [ -z "$VERSION" ]; then
-            VERSION=$(grep -oP '^ARG BOB_VERSION=\K.*' docker/Dockerfile)
-          fi
-          # Checksum of the official amd64 AppImage (arm64 is built from source)
-          SHA=$(curl -fsSL "https://github.com/shadstoneofficial/bob-wallet/releases/download/v${VERSION}/SHA256SUMS.txt" \
-            | grep "Bob.LearnHNS-${VERSION}.AppImage" | awk '{print $1}')
-          if [ -z "$SHA" ]; then
-            echo "Could not find an AppImage checksum for v${VERSION}" >&2
-            exit 1
-          fi
+          # Bob release to build, from the Dockerfile
+          VERSION=$(grep -oP '^ARG BOB_VERSION=\K.*' docker/Dockerfile)
+          # Image tag = the Umbrel app version, so every app release gets its own image
+          TAG=$(grep -oP '^version: "\K[^"]+' galetaire-bob-wallet/umbrel-app.yml)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/bob-learnhns" >> "$GITHUB_OUTPUT"
 
   build:
@@ -54,7 +43,7 @@ jobs:
           - arch: amd64
             runner: ubuntu-latest
           - arch: arm64
-            # Native ARM runner: compiling Bob under QEMU emulation would take hours
+            # Native ARM runner: compiling Bob under QEMU emulation would be very slow
             runner: ubuntu-24.04-arm
     runs-on: ${{ matrix.runner }}
     steps:
@@ -76,8 +65,7 @@ jobs:
           provenance: false
           build-args: |
             BOB_VERSION=${{ needs.resolve.outputs.version }}
-            BOB_SHA256=${{ needs.resolve.outputs.sha }}
-          tags: ${{ needs.resolve.outputs.image }}:${{ needs.resolve.outputs.version }}-${{ matrix.arch }}
+          tags: ${{ needs.resolve.outputs.image }}:${{ needs.resolve.outputs.tag }}-${{ matrix.arch }}
           cache-from: type=gha,scope=${{ matrix.arch }}
           cache-to: type=gha,mode=max,scope=${{ matrix.arch }}
 
@@ -96,10 +84,10 @@ jobs:
       - name: Create multi-arch tags
         run: |
           IMAGE="${{ needs.resolve.outputs.image }}"
-          VERSION="${{ needs.resolve.outputs.version }}"
+          TAG="${{ needs.resolve.outputs.tag }}"
           docker buildx imagetools create \
-            -t "$IMAGE:$VERSION" \
+            -t "$IMAGE:$TAG" \
             -t "$IMAGE:latest" \
-            "$IMAGE:$VERSION-amd64" \
-            "$IMAGE:$VERSION-arm64"
-          docker buildx imagetools inspect "$IMAGE:$VERSION"
+            "$IMAGE:$TAG-amd64" \
+            "$IMAGE:$TAG-arm64"
+          docker buildx imagetools inspect "$IMAGE:$TAG"

@@ -1,0 +1,9 @@
+{
+  "name": "bob-web",
+  "private": true,
+  "description": "Runs Bob LearnHNS as a web app for umbrelOS",
+  "main": "server.js",
+  "dependencies": {
+    "ws": "8.21.3"
+  }
+}

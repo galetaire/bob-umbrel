@@ -1,5 +1,0 @@
-#!/usr/bin/with-contenv bash
-# shellcheck shell=bash
-
-# Make sure the app user owns its data (Umbrel creates the folder as root on first install)
-lsiown -R abc:abc /config

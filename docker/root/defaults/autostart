@@ -1,5 +1,0 @@
-# Keep Bob open: if the window is closed, reopen it after a short delay.
-while true; do
-  /usr/bin/bob
-  sleep 3
-done

@@ -8,14 +8,15 @@ services:
       APP_PORT: 3000
 
   server:
-    image: ghcr.io/galetaire/bob-learnhns:2.3.12
+    image: ghcr.io/galetaire/bob-learnhns:2.3.12-web.1
     restart: on-failure
+    user: "1000:1000"
+    init: true
+    # Give hsd time to flush its databases when the app stops
+    stop_grace_period: 1m
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Etc/UTC
-      - TITLE=Bob LearnHNS
     volumes:
-      # Bob's settings, wallets and the Handshake chain live under /config/.config
-      - ${APP_DATA_DIR}/data/config:/config
-    shm_size: "1gb"
+      # Same folder as the earlier KasmVNC version, so wallets and chain data carry over.
+      # Bob keeps everything in /data/.config/Bob LearnHNS
+      - ${APP_DATA_DIR}/data/config:/data
