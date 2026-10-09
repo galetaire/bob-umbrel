@@ -69,7 +69,39 @@ const sessionToken = crypto.randomBytes(32).toString('hex');
 const clients = new Set();
 let appReady = false;
 
+// RPC calls made by the server itself (see autoStartNode) are answered here
+// and never sent to browsers.
+const SERVER_RPC_PREFIX = 'server:';
+const serverRpcPending = new Map();
+let serverRpcId = 0;
+
+function serverRpc(method, params = []) {
+  const id = `${SERVER_RPC_PREFIX}${++serverRpcId}`;
+  return new Promise((resolve, reject) => {
+    serverRpcPending.set(id, {resolve, reject});
+    const event = {sender: mainWebContents(), senderFrame: null, returnValue: undefined};
+    shim.ipcMain.emit('@@RPC@@', event, {jsonrpc: '2.0', method, params, id});
+  });
+}
+
+function takeServerRpcResponse(channel, args) {
+  if (channel !== '@@RPC@@' || typeof args[0] !== 'string' || !args[0].includes(SERVER_RPC_PREFIX)) return false;
+  let data;
+  try {
+    data = JSON.parse(args[0]);
+  } catch (e) {
+    return false;
+  }
+  const pending = serverRpcPending.get(data.id);
+  if (!pending) return false;
+  serverRpcPending.delete(data.id);
+  if (data.error) pending.reject(Object.assign(new Error(data.error.message), {code: data.error.code}));
+  else pending.resolve(data.result);
+  return true;
+}
+
 shim.transport.broadcast = (channel, args) => {
+  if (takeServerRpcResponse(channel, args)) return;
   const msg = encode({t: 'event', channel, args});
   for (const ws of clients) {
     if (ws.readyState === ws.OPEN) ws.send(msg);
@@ -271,6 +303,21 @@ function markReady() {
   appReady = true;
   console.log('[Bob web] Services started, UI is ready.');
   while (readyWaiters.length) readyWaiters.shift()();
+  autoStartNode();
+}
+
+// In the desktop app the window is always open and starts the node right
+// away. Here nobody may have the page open (for example after the Umbrel
+// reboots), so start it the same way the UI does. Starting is idempotent:
+// when a page connects later, Bob just refreshes its status.
+async function autoStartNode() {
+  try {
+    const network = (await serverRpc('DB.get', ['network'])) || 'main';
+    await serverRpc('Node.start', [network]);
+    console.log(`[Bob web] Node started on ${network}.`);
+  } catch (e) {
+    console.error('[Bob web] Could not start the node automatically:', e.message);
+  }
 }
 
 // ---- start -----------------------------------------------------------------
