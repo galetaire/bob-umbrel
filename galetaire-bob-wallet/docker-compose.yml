@@ -8,10 +8,8 @@ services:
       APP_PORT: 3000
 
   server:
-    image: ghcr.io/galetaire/bob-learnhns:2.3.12-web.2
+    image: ghcr.io/galetaire/bob-learnhns:2.3.12-web.3
     restart: on-failure
-    user: "1000:1000"
-    init: true
     # Give hsd time to flush its databases when the app stops
     stop_grace_period: 1m
     environment:

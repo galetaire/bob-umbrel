@@ -71,12 +71,12 @@ ENV NODE_ENV=production \
     HOME=/data \
     PORT=3000
 
-RUN mkdir -p /data && chown node:node /data
+RUN mkdir -p /data && chown node:node /data \n  && chmod 755 /opt/bob-web/entrypoint.sh
 
-# The node image's "node" user is uid/gid 1000, like Umbrel's app data.
-USER node
+# The entrypoint starts as root to fix /data ownership, then runs Bob as
+# uid/gid 1000 (the node image's "node" user, like Umbrel's app data).
 EXPOSE 3000
 VOLUME /data
 
-ENTRYPOINT ["/usr/bin/tini", "--"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/opt/bob-web/entrypoint.sh"]
 CMD ["node", "/opt/bob-web/server.js"]
