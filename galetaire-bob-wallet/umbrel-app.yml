@@ -4,7 +4,7 @@ name: Bob LearnHNS
 tagline: Handshake wallet and full node, running on your Umbrel
 icon: https://raw.githubusercontent.com/shadstoneofficial/bob-wallet/master/resources/icons/512x512.png
 category: finance
-version: "2.3.12-web.3"
+version: "2.3.12-web.4"
 port: 8337
 description: >-
   Bob LearnHNS is a Handshake (HNS) wallet with a built-in full node. Use it to

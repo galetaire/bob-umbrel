@@ -306,6 +306,51 @@ function markReady() {
   autoStartNode();
 }
 
+// Bob's NodeService.startNode() assumes it is never called twice at once: a
+// second call made while the first is still opening hsd emits 'start local'
+// without the wallet plugin, which crashes the wallet service. On the desktop
+// only the one window calls it, but here the server (autoStartNode) and every
+// browser tab can. Make overlapping calls wait for the one in progress.
+function serializeNodeStarts() {
+  const {service} = require(path.join(DIST_DIR, 'background', 'node', 'service.js'));
+  const startNode = service.startNode.bind(service);
+  let inFlight = null;
+  service.startNode = function serializedStartNode() {
+    const run = () => {
+      inFlight = startNode().finally(() => { inFlight = null; });
+      return inFlight;
+    };
+    return inFlight ? inFlight.catch(noop).then(run) : run();
+  };
+}
+
+// hsd deadlock: when the wallet is far ahead of the chain (for example after
+// switching from SPV to a fresh full node), WalletDB.syncNode() spends a while
+// walking back to a common block while holding its txLock, then rescans
+// through chain.scan(), which needs the chain lock. If the node is already
+// connected, chain.add() holds the chain lock and waits on the wallet to
+// connect the block: both wait forever and sync sits at 0%. Let the wallet
+// finish catching up before the node connects to peers.
+function waitForWalletBeforeConnect() {
+  const hsdLib = path.join(BOB_DIR, 'node_modules', 'hsd', 'lib', 'node');
+  for (const file of ['fullnode.js', 'spvnode.js']) {
+    const NodeClass = require(path.join(hsdLib, file));
+    const connect = NodeClass.prototype.connect;
+    NodeClass.prototype.connect = async function connectAfterWalletSync(...args) {
+      const plugin = this.get('walletdb');
+      const wdb = plugin && plugin.wdb;
+      if (wdb && wdb.txLock) {
+        const started = Date.now();
+        const unlock = await wdb.txLock.lock();
+        unlock();
+        const waited = Math.round((Date.now() - started) / 1000);
+        if (waited > 1) console.log(`[Bob web] Waited ${waited}s for the wallet to sync with the chain.`);
+      }
+      return connect.apply(this, args);
+    };
+  }
+}
+
 // In the desktop app the window is always open and starts the node right
 // away. Here nobody may have the page open (for example after the Umbrel
 // reboots), so start it the same way the UI does. Starting is idempotent:
@@ -347,6 +392,8 @@ process.on('SIGINT', () => shutdown('SIGINT'));
 server.listen(PORT, () => {
   console.log(`[Bob web] Listening on port ${PORT}`);
   require(path.join(DIST_DIR, 'main.js'));
+  serializeNodeStarts();
+  waitForWalletBeforeConnect();
   // Electron creates the userData folder before 'ready'; Bob relies on that.
   fs.mkdirSync(shim.app.getPath('userData'), {recursive: true});
   shim.app._ready = true;
