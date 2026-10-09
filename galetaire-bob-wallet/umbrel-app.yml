@@ -1,17 +1,17 @@
 manifestVersion: 1
 id: galetaire-bob-wallet
-name: Bob LearnHNS
+name: Bob Wallet
 tagline: Handshake wallet and full node, running on your Umbrel
-icon: https://raw.githubusercontent.com/shadstoneofficial/bob-wallet/master/resources/icons/512x512.png
-category: finance
+icon: https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/icon.png
+category: crypto
 version: "2.3.12-web.4"
 port: 8337
 description: >-
-  Bob LearnHNS is a Handshake (HNS) wallet with a built-in full node. Use it to
+  Bob Wallet is a Handshake (HNS) wallet with a built-in full node. Use it to
   manage HNS, bid on name auctions, and manage your Handshake domains and DNS records.
 
 
-  This app runs Bob as a web app: its wallet, Handshake full node and
+  This app runs Bob LearnHNS as a web app: its wallet, Handshake full node and
   services run on your Umbrel, and you use Bob's own interface directly in
   your browser. Your node keeps syncing when you close the browser tab.
 

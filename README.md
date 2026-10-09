@@ -1,4 +1,4 @@
-# Galetaire Umbrel Community App Store
+# Bob Wallet Umbrel Community App Store
 
 An [umbrelOS community app store](https://github.com/getumbrel/umbrel-community-app-store) with one app:
 
