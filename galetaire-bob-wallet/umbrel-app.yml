@@ -1,13 +1,13 @@
 manifestVersion: 1
 id: galetaire-bob-wallet
-name: Bob Wallet
+name: Bob DNS
 tagline: Handshake wallet and full node, running on your Umbrel
 icon: https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/icon.png
-category: crypto
+category: networking
 version: "2.3.12-web.4"
 port: 8337
 description: >-
-  Bob Wallet is a Handshake (HNS) wallet with a built-in full node. Use it to
+  Bob DNS is a Handshake (HNS) wallet with a built-in full node. Use it to
   manage HNS, bid on name auctions, and manage your Handshake domains and DNS records.
 
 
@@ -21,7 +21,7 @@ description: >-
 
 
   ⚠️ The first sync of the Handshake blockchain can take several hours and
-  uses tens of GB of disk space.
+  uses tens of GB of disk space. Full node takes 100GB at november 2026.
 
 
   Runs on x86_64 (Umbrel Home, PCs) and ARM64 (Raspberry Pi 4/5). Ledger
@@ -36,7 +36,10 @@ submitter: galetaire
 submission: https://github.com/galetaire/bob-umbrel
 repo: https://github.com/shadstoneofficial/bob-wallet
 support: https://github.com/shadstoneofficial/bob-wallet/issues
-gallery: []
+gallery:
+  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/1.jpg
+  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/2.jpg
+  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/3.jpg
 releaseNotes: >-
   Bob now runs as a native web app instead of a remote desktop. Your
   existing wallets and synced chain data are kept.
