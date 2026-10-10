@@ -176,7 +176,7 @@ function renderIndex() {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bob LearnHNS</title>
+  <title>Bob DNS</title>
   <link rel="icon" type="image/png" href="./__bob/icon.png" />
   <style>html, body { margin: 0; padding: 0; font-family: system-ui, 'Roboto', sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }</style>
   <link rel="stylesheet" href="./style.css" />
