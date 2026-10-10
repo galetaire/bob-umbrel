@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: galetaire-bob-wallet
 name: Bob DNS
-tagline: Handshake wallet and full node, running on your Umbrel
+tagline: Handshake DNS wallet and full node
 icon: https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/icon.png
 category: networking
 version: "2.3.12-web.4"
@@ -37,9 +37,9 @@ submission: https://github.com/galetaire/bob-umbrel
 repo: https://github.com/shadstoneofficial/bob-wallet
 support: https://github.com/shadstoneofficial/bob-wallet/issues
 gallery:
-  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/1.jpg
-  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/2.jpg
-  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/3.jpg
+  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/1.png
+  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/2.png
+  - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/galetaire-bob-wallet/gallery/3.png
 releaseNotes: >-
   Bob now runs as a native web app instead of a remote desktop. Your
   existing wallets and synced chain data are kept.
