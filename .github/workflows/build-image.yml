@@ -6,7 +6,7 @@ on:
     branches: [main]
     paths:
       - "docker/**"
-      - "galetaire-bob-wallet/umbrel-app.yml"
+      - "bob-wallet/docker-compose.yml"
       - ".github/workflows/build-image.yml"
 
 permissions:
@@ -29,7 +29,7 @@ jobs:
           # Bob release to build, from the Dockerfile
           VERSION=$(grep -oP '^ARG BOB_VERSION=\K.*' docker/Dockerfile)
           # Image tag = the Umbrel app version, so every app release gets its own image
-          TAG=$(grep -oP '^version: "\K[^"]+' galetaire-bob-wallet/umbrel-app.yml)
+          TAG=$(grep -oP '^version: "\K[^"]+' bob-wallet/umbrel-app.yml)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/bob-learnhns" >> "$GITHUB_OUTPUT"

@@ -2,7 +2,7 @@
 
 An [umbrelOS community app store](https://github.com/getumbrel/umbrel-community-app-store) with one app:
 
-- **Bob LearnHNS** (`galetaire-bob-wallet`): the [Bob LearnHNS](https://github.com/shadstoneofficial/bob-wallet) Handshake wallet and full node, running on your Umbrel as a web app.
+- **Bob LearnHNS** (`bob-wallet`): the [Bob LearnHNS](https://github.com/shadstoneofficial/bob-wallet) Handshake wallet and full node, running on your Umbrel as a web app.
 
 ## How it works
 
@@ -27,7 +27,7 @@ Not supported in the web version: Ledger hardware wallets (no USB access) and `b
 
 ```
 umbrel-app-store.yml               store id + name
-galetaire-bob-wallet/              the Umbrel app (manifest + compose)
+bob-wallet/                        the Umbrel app (manifest + compose)
 docker/Dockerfile                  builds Bob from source and the web server
 docker/web/                        web server, Electron stand-in, browser bridge
 .github/workflows/build-image.yml  builds and pushes ghcr.io/<owner>/bob-learnhns
@@ -40,9 +40,9 @@ In umbrelOS go to **App Store** → **⋯** → **Community App Stores**, paste 
 ## Releasing an update
 
 1. To move to a new Bob release, change `ARG BOB_VERSION` in `docker/Dockerfile`.
-2. Bump `version:` in `galetaire-bob-wallet/umbrel-app.yml` (for example `2.3.14-web.1`) and set the same tag on the image in `galetaire-bob-wallet/docker-compose.yml`.
+2. Bump `version:` in `bob-wallet/umbrel-app.yml` (for example `2.3.14-web.1`) and set the same tag on the image in `bob-wallet/docker-compose.yml`.
 3. Push. The workflow builds both architectures and tags the image with the app version, and Umbrel then offers the update.
 
 ## Data and backups
 
-All of Bob's data, including wallets and the Handshake chain, is stored in `~/umbrel/app-data/galetaire-bob-wallet/data/config` on the Umbrel (`/data` in the container). It's the same folder the earlier KasmVNC version used, so updating keeps your data. Uninstalling the app deletes it, so **write down your seed phrase** before you uninstall or test anything.
+All of Bob's data, including wallets and the Handshake chain, is stored in `~/umbrel/app-data/bob-wallet/data/config` on the Umbrel (`/data` in the container). It's the same folder the earlier KasmVNC version used, so updating keeps your data. Uninstalling the app deletes it, so **write down your seed phrase** before you uninstall or test anything.

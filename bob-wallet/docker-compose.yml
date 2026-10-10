@@ -4,7 +4,7 @@ services:
   app_proxy:
     environment:
       # The format here is: <app-id>_<docker-service-name>_1
-      APP_HOST: galetaire-bob-wallet_server_1
+      APP_HOST: bob-wallet_server_1
       APP_PORT: 3000
 
   server:

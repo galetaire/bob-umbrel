@@ -1,2 +1,2 @@
-id: "galetaire" # Prefix for every app in this store (a-z and dashes only).
+id: "bob" # Prefix for every app in this store (a-z and dashes only).
 name: "Galetaire" # Shows up in umbrelOS as "Galetaire App Store".
