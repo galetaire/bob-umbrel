@@ -21,10 +21,9 @@ description: >-
   and ARM64 (Raspberry Pi 4/5). Ledger hardware wallets are not supported in the web version.
 
 
-  🐈‍⬛ Bob Wallet and Handshake are open decentralized projects, so there’s no such thing as “official”.
+  Bob Wallet and Handshake are open decentralized projects, so there’s no such thing as “official”.
   But if you have questions or want to join the community, GitHub or Discord are a good place to start.
-  
-  - Discord main channel: https://discord.gg/Q2HfjDGfz
+  Discord main channel: https://discord.gg/Q2HfjDGfz
 
 
   ⚠️ The first sync of the Handshake blockchain can take several hours, even days depending on
@@ -34,7 +33,7 @@ description: >-
   ⚠️ Always back up your seed phrase. Uninstalling this app permanently deletes
   its data, including your wallet files.
 developer: Shadstone / LearnHNS
-website: https://github.com/shadstoneofficial/bob-wallet
+website: https://bobwallet.org
 submitter: galetaire
 submission: https://github.com/galetaire/bob-umbrel
 repo: https://github.com/shadstoneofficial/bob-wallet
