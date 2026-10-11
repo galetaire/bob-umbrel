@@ -17,15 +17,18 @@ description: >-
 
 
   Files you export (CSV, backups, logs) are downloaded by your browser, and
-  files you import are picked from your computer.
+  files you import are picked from your computer. Runs on x86_64 (Umbrel Home, PCs)
+  and ARM64 (Raspberry Pi 4/5). Ledger hardware wallets are not supported in the web version.
 
 
-  ⚠️ The first sync of the Handshake blockchain can take several hours and
-  uses tens of GB of disk space. Full node takes 100GB at november 2026.
+  🐈‍⬛ Bob Wallet and Handshake are open decentralized projects, so there’s no such thing as “official”.
+  But if you have questions or want to join the community, GitHub or Discord are a good place to start.
+  
+  - Discord main channel: https://discord.gg/Q2HfjDGfz
 
 
-  Runs on x86_64 (Umbrel Home, PCs) and ARM64 (Raspberry Pi 4/5). Ledger
-  hardware wallets are not supported in the web version.
+  ⚠️ The first sync of the Handshake blockchain can take several hours, even days depending on
+  the internet connection. At november 2026, a Full node takes 100 GB of disk space.
 
 
   ⚠️ Always back up your seed phrase. Uninstalling this app permanently deletes
