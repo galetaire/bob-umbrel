@@ -26,8 +26,8 @@ description: >-
   Discord main channel: https://discord.gg/Q2HfjDGfz
 
 
-  ⚠️ The first sync of the Handshake blockchain can take several hours, even days depending on
-  the internet connection. At november 2026, a Full node takes 100 GB of disk space.
+  💾 The first sync of the Handshake blockchain can take several hours, or even days, depending on
+  your internet connection. As of November 2026, a full node requires about 120 GB of disk space.
 
 
   ⚠️ Always back up your seed phrase. Uninstalling this app permanently deletes
