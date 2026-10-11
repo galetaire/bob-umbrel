@@ -2,7 +2,7 @@
 
 An [umbrelOS community app store](https://github.com/getumbrel/umbrel-community-app-store) with one app:
 
-- **Bob LearnHNS** (`bob-wallet`): the [Bob LearnHNS](https://github.com/shadstoneofficial/bob-wallet) Handshake wallet and full node, running on your Umbrel as a web app.
+- **Bob DNS** (`bob-wallet`): the [Bob LearnHNS](https://github.com/shadstoneofficial/bob-wallet) Handshake wallet and full node, running on your Umbrel as a web app.
 
 ## Credits
 
