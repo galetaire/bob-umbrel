@@ -49,7 +49,8 @@ ARG BOB_VERSION
 
 LABEL org.opencontainers.image.title="Bob LearnHNS" \
       org.opencontainers.image.description="Bob LearnHNS Handshake wallet as a web app for umbrelOS" \
-      org.opencontainers.image.version="${BOB_VERSION}"
+      org.opencontainers.image.version="${BOB_VERSION}" \
+      org.opencontainers.image.source="https://github.com/galetaire/bob-umbrel"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libudev1 \
@@ -59,6 +60,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /src/package.json /opt/bob/package.json
+# Bob is GPL-3.0: ship its license and say where the source of both parts lives
+COPY --from=build /src/LICENSE /opt/bob/LICENSE
+RUN printf '%s\n' \
+    "This image contains Bob LearnHNS v${BOB_VERSION}, licensed under the GNU General" \
+    "Public License v3. See /opt/bob/LICENSE." \
+    "" \
+    "Bob LearnHNS source code:" \
+    "  https://github.com/shadstoneofficial/bob-wallet/tree/v${BOB_VERSION}" \
+    "" \
+    "Umbrel packaging (web server in /opt/bob-web, Dockerfile, and the changes" \
+    "applied to Bob at build time):" \
+    "  https://github.com/galetaire/bob-umbrel" \
+    > /opt/bob/NOTICE
 COPY --from=build /src/dist /opt/bob/dist
 COPY --from=build /src/node_modules /opt/bob/node_modules
 COPY --from=build /web /opt/bob-web

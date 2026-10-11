@@ -4,6 +4,18 @@ An [umbrelOS community app store](https://github.com/getumbrel/umbrel-community-
 
 - **Bob LearnHNS** (`bob-wallet`): the [Bob LearnHNS](https://github.com/shadstoneofficial/bob-wallet) Handshake wallet and full node, running on your Umbrel as a web app.
 
+## Credits
+
+This is an unofficial Umbrel package of **Bob LearnHNS**, maintained separately from the original project. All credit for the wallet goes to its authors:
+
+- [Bob LearnHNS](https://github.com/shadstoneofficial/bob-wallet) by Shadstone / LearnHNS: the wallet this app runs, built from its release tags.
+- [Bob Wallet](https://github.com/kyokan/bob-wallet) by Kyokan Group: the original Bob that Bob LearnHNS is based on.
+- [hsd](https://github.com/handshake-org/hsd) by the Handshake developers: the Handshake node inside Bob.
+
+This repository only adds the Umbrel packaging: the web server that runs Bob without its desktop shell, the Docker build, and the app store files. Problems with the wallet itself belong upstream; problems with running it on Umbrel belong here.
+
+Bob LearnHNS is licensed under the [GNU General Public License v3](https://github.com/shadstoneofficial/bob-wallet/blob/master/LICENSE). The Docker image includes that license at `/opt/bob/LICENSE`, and `/opt/bob/NOTICE` points to the source code of both Bob and this packaging.
+
 ## How it works
 
 Bob is an Electron desktop app, but it is split cleanly in two:

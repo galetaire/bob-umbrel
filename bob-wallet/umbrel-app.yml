@@ -4,7 +4,7 @@ name: Bob DNS
 tagline: Handshake DNS wallet and full node
 icon: https://raw.githubusercontent.com/galetaire/bob-umbrel/main/bob-wallet/icon.png
 category: networking
-version: "2.3.12-web.5"
+version: "2.3.12-web.6"
 port: 8337
 description: >-
   Bob DNS is a Handshake (HNS) wallet with a built-in full node. Use it to
@@ -43,7 +43,7 @@ gallery:
   - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/bob-wallet/gallery/2.png
   - https://raw.githubusercontent.com/galetaire/bob-umbrel/main/bob-wallet/gallery/3.png
 releaseNotes: >-
-  The browser tab now shows "Bob DNS" as its title.
+  Adds the Bob LearnHNS license (GNU GPL v3) and a source notice to the app.
 dependencies: []
 path: ""
 defaultUsername: ""
