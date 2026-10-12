@@ -49,12 +49,6 @@ docker/web/                        web server, Electron stand-in, browser bridge
 
 In umbrelOS go to **App Store** → **⋯** → **Community App Stores**, paste `https://github.com/galetaire/bob-umbrel` and install **Bob DNS**.
 
-## Releasing an update
-
-1. To move to a new Bob release, change `ARG BOB_VERSION` in `docker/Dockerfile`.
-2. Bump `version:` in `bob-wallet/umbrel-app.yml` (for example `2.3.14-web.1`) and set the same tag on the image in `bob-wallet/docker-compose.yml`.
-3. Push. The workflow builds both architectures and tags the image with the app version, and Umbrel then offers the update.
-
 ## Data and backups
 
-All of Bob's data, including wallets and the Handshake chain, is stored in `~/umbrel/app-data/bob-wallet/data/config` on the Umbrel (`/data` in the container). It's the same folder the earlier KasmVNC version used, so updating keeps your data. Uninstalling the app deletes it, so **write down your seed phrase** before you uninstall or test anything.
+All of Bob's data, including wallets and the Handshake chain, is stored in `~/umbrel/app-data/bob-wallet/data/config` on the Umbrel (`/data` in the container). Uninstalling the app deletes it, so **write down your seed phrase** before you uninstall or test anything.
