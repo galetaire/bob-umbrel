@@ -13,12 +13,8 @@ description: >-
 
   This app runs Bob LearnHNS as a web app: its wallet, Handshake full node and
   services run on your Umbrel, and you use Bob's own interface directly in
-  your browser. Your node keeps syncing when you close the browser tab.
-
-
-  Files you export (CSV, backups, logs) are downloaded by your browser, and
-  files you import are picked from your computer. Runs on x86_64 (Umbrel Home, PCs)
-  and ARM64 (Raspberry Pi 4/5). Ledger hardware wallets are not supported in the web version.
+  your browser. Your node keeps syncing when you close the browser tab. Ledger hardware
+  wallets are not supported in this version.
 
 
   Bob Wallet and Handshake are open decentralized projects, so there’s no such thing as “official”.
@@ -26,13 +22,15 @@ description: >-
   Discord main channel: https://discord.gg/Q2HfjDGfz
 
 
-  💾 The first sync of the Handshake blockchain can take several hours, or even days, depending on
-  your internet connection. As of November 2026, a full node requires about 120 GB of disk space.
+  💾 The initial sync of the Handshake blockchain can take several hours or even days. As of October 2026,
+  a full node requires about 150 GB of disk space. Until your full node has finished syncing, the best
+  approach is to run in SPV mode whenever you need the wallet, and switch back to full-node mode when you
+  want the sync to make progress. Once your node is fully synced, there’s no need to switch back to SPV mode.
 
 
   ⚠️ Always back up your seed phrase. Uninstalling this app permanently deletes
   its data, including your wallet files.
-developer: Shadstone / LearnHNS
+developer: Shadstone
 website: https://bobwallet.org
 submitter: galetaire
 submission: https://github.com/galetaire/bob-umbrel
