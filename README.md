@@ -1,6 +1,6 @@
 # Bob Wallet Umbrel Community App Store
 
-An [umbrelOS community app store](https://github.com/getumbrel/umbrel-community-app-store) with one app:
+An [umbrelOS community app store](https://github.com/getumbrel/umbrel-community-app-store):
 
 - **Bob DNS** (`bob-wallet`): the [Bob LearnHNS](https://github.com/shadstoneofficial/bob-wallet) Handshake wallet and full node, running on your Umbrel as a web app.
 
@@ -47,7 +47,7 @@ docker/web/                        web server, Electron stand-in, browser bridge
 
 ## Installing
 
-In umbrelOS go to **App Store** → **⋯** → **Community App Stores**, paste `https://github.com/galetaire/bob-umbrel` and install **Bob DNS**.
+In umbrelOS go to **App Store** → **Community App Stores** →  **Manage**, paste `https://github.com/galetaire/bob-umbrel` and install **Bob DNS**.
 
 ## Data and backups
 
