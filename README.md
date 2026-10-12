@@ -47,7 +47,7 @@ docker/web/                        web server, Electron stand-in, browser bridge
 
 ## Installing
 
-In umbrelOS go to **App Store** → **⋯** → **Community App Stores**, paste `https://github.com/galetaire/bob-umbrel` and install **Bob LearnHNS**.
+In umbrelOS go to **App Store** → **⋯** → **Community App Stores**, paste `https://github.com/galetaire/bob-umbrel` and install **Bob DNS**.
 
 ## Releasing an update
 
